@@ -5,6 +5,11 @@
 ChatServer::ChatServer(const QHostAddress & address, quint16 port,QObject * parent ):QTcpServer(parent)
 {
     this->listen(address,port);
+    this->port = port;
+    timeForSendServerInfo = new QTimer(this);
+    QObject::connect(this->timeForSendServerInfo,SIGNAL(timeout()),this,SLOT(slotSendServerInfo()));
+    sendServerInfo = new QUdpSocket;
+    timeForSendServerInfo->start(1000);
 }
 
 void ChatServer::incomingConnection(int socketDescriptor)
@@ -15,7 +20,15 @@ void ChatServer::incomingConnection(int socketDescriptor)
     QObject::connect(client,SIGNAL(signalDisconnect(int)),this,SLOT(slotDisconnect(int)));
     QObject::connect(client,SIGNAL(signalReadyRead(QString,int)),this,SLOT(slotReadyRead(QString,int)));
 }
-
+//每隔100ms发送一次服务器的端口号
+void ChatServer::slotSendServerInfo()
+{
+    QString serverPort(QObject::tr("%1").arg(port));
+    quint16 broadcastPort = 7777;
+    sendServerInfo->writeDatagram(serverPort.toAscii(),QHostAddress::Broadcast,broadcastPort);
+    timeForSendServerInfo->start(1000);
+    qDebug()<<"SendServerInfo :  "<<serverPort<<'\n';
+}
 void ChatServer::slotReadyRead(QString msg,int len)
 {
 	//接收客户端发送的数据

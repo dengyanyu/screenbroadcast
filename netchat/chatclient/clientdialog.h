@@ -13,6 +13,8 @@ class ClientDialog : public QDialog {
 public:
     ClientDialog(QWidget *parent = 0);
     ~ClientDialog();
+public slots:
+    void slotGetServerPort();
 
 protected:
     void changeEvent(QEvent *e);
@@ -20,6 +22,10 @@ protected:
 private:
     Ui::ClientDialog *ui;
     QUdpSocket *getServer;
+    quint16 serverPort ;
+
+private slots:
+    void on_pExit_clicked();
 };
 
 #endif // CLIENTDIALOG_H

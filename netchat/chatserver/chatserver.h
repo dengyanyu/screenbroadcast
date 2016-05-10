@@ -3,6 +3,8 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
+ #include <QUdpSocket>
+#include <QTimer>
 #include <QList>
 #include "clientsocket.h"
 
@@ -15,14 +17,20 @@ public:
 public slots:
         void slotReadyRead(QString msg,int len);
         void slotDisconnect(int fd);
+         void slotSendServerInfo();
+
 protected:
          void	incomingConnection ( int socketDescriptor );
 signals:
     void signalClientInfo(QString address);
     void signalUpdataMsg(QString msg);
     void signalClientOffLine(QString address);
+
 private:
         QList<ClientSocket *> clientList;
+        QTimer *timeForSendServerInfo;
+        QUdpSocket  *sendServerInfo;
+        quint16 port;
 
 
 };

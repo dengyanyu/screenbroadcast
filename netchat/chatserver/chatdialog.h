@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QList>
+#include <QTimer>
 #include "chatserver.h"
 
 namespace Ui {
@@ -23,9 +24,11 @@ public slots:
     void slotUpdateMsg(QString msg);
     void slotClientOffLine(QString address);
 
+
 private:
     Ui::ChatDialog *ui;
     ChatServer *server;
+
 
 };
 

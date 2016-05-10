@@ -48,11 +48,14 @@ void ChatDialog::slotCreateChat()
     ui->pSendText->setEnabled(true);
     ui->pSendBtn->setEnabled(true);
 
+
     server = new ChatServer(QHostAddress(ui->pAddress->text()),ui->pPort->text().toUShort(&ok,10));
     QObject::connect(server,SIGNAL(signalClientInfo(QString)),this,SLOT(slotRecvClientInfo(QString)));
     QObject::connect(server,SIGNAL(signalUpdataMsg(QString)),this,SLOT(slotUpdateMsg(QString)));
     QObject::connect(server,SIGNAL(signalClientOffLine(QString)),this,SLOT(slotClientOffLine(QString)));
+
 }
+
 //显示客户端信息
 void ChatDialog::slotRecvClientInfo(QString address)
 {
