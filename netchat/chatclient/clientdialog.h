@@ -2,6 +2,7 @@
 #define CLIENTDIALOG_H
 
 #include <QDialog>
+#include <QUdpSocket>
 
 namespace Ui {
     class ClientDialog;
@@ -18,6 +19,7 @@ protected:
 
 private:
     Ui::ClientDialog *ui;
+    QUdpSocket *getServer;
 };
 
 #endif // CLIENTDIALOG_H

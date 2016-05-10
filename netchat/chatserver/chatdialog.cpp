@@ -11,6 +11,8 @@ ChatDialog::ChatDialog(QWidget *parent) :
     ui->pAddress->setText(QObject::tr("192.168.13.237"));
     QObject::connect(ui->pcreate,SIGNAL(clicked()),this,SLOT(slotCreateChat()));
     QObject::connect(ui->pexit,SIGNAL(clicked()),this,SLOT(close()));
+    ui->pSendText->setEnabled(false);
+    ui->pSendBtn->setEnabled(false);
 
 }
 
@@ -43,6 +45,8 @@ void ChatDialog::slotCreateChat()
     ui->pcreate->setEnabled(false);
     ui->pAddress->setReadOnly(true);
     ui->pPort->setReadOnly(true);
+    ui->pSendText->setEnabled(true);
+    ui->pSendBtn->setEnabled(true);
 
     server = new ChatServer(QHostAddress(ui->pAddress->text()),ui->pPort->text().toUShort(&ok,10));
     QObject::connect(server,SIGNAL(signalClientInfo(QString)),this,SLOT(slotRecvClientInfo(QString)));
