@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'chatserver.h'
 **
-** Created: Thu Mar 31 14:54:45 2016
+** Created: Wed May 11 17:13:45 2016
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ChatServer[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -38,6 +38,7 @@ static const uint qt_meta_data_ChatServer[] = {
  // slots: signature, parameters, type, tag, flags
      112,  104,   11,   11, 0x0a,
      142,  139,   11,   11, 0x0a,
+     162,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -47,7 +48,7 @@ static const char qt_meta_stringdata_ChatServer[] = {
     "msg\0signalUpdataMsg(QString)\0"
     "signalClientOffLine(QString)\0msg,len\0"
     "slotReadyRead(QString,int)\0fd\0"
-    "slotDisconnect(int)\0"
+    "slotDisconnect(int)\0slotSendServerInfo()\0"
 };
 
 const QMetaObject ChatServer::staticMetaObject = {
@@ -84,9 +85,10 @@ int ChatServer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: signalClientOffLine((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 3: slotReadyRead((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 4: slotDisconnect((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 5: slotSendServerInfo(); break;
         default: ;
         }
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }

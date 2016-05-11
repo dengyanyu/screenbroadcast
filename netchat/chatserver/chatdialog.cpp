@@ -1,5 +1,7 @@
 #include <QTcpSocket>
 #include <QList>
+#include <QHostAddress>
+#include <QNetworkInterface>
 #include "chatdialog.h"
 #include "ui_chatdialog.h"
 
@@ -8,7 +10,7 @@ ChatDialog::ChatDialog(QWidget *parent) :
     ui(new Ui::ChatDialog)
 {
     ui->setupUi(this);
-    ui->pAddress->setText(QObject::tr("192.168.13.237"));
+    ui->pAddress->setText(this->getLocalAddress());
     QObject::connect(ui->pcreate,SIGNAL(clicked()),this,SLOT(slotCreateChat()));
     QObject::connect(ui->pexit,SIGNAL(clicked()),this,SLOT(close()));
     ui->pSendText->setEnabled(false);
@@ -68,5 +70,23 @@ void ChatDialog::slotClientOffLine(QString address)
    QList<QListWidgetItem *> temp =  ui->pUerList->findItems(address,Qt::MatchContains);
    ui->pUerList->removeItemWidget(temp.at(0));
    delete temp.at(0);
+}
+QString ChatDialog::getLocalAddress()
+{
+    QString hostIP = "127.0.0.1";
+        QList<QHostAddress> list = QNetworkInterface::allAddresses();
+        foreach (QHostAddress address, list)
+        {
+            if(address.protocol() == QAbstractSocket::IPv4Protocol)
+            {
+                //IPv4地址
+                if (address.toString().contains("127.0."))
+                {
+                    continue;
+                }
+                hostIP = address.toString();
+            }
+        }
+       return hostIP;
 }
 

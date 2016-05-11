@@ -6,12 +6,22 @@ ChatServer::ChatServer(const QHostAddress & address, quint16 port,QObject * pare
 {
     this->listen(address,port);
     this->port = port;
+    serverIP = address.toString();
     timeForSendServerInfo = new QTimer(this);
     QObject::connect(this->timeForSendServerInfo,SIGNAL(timeout()),this,SLOT(slotSendServerInfo()));
     sendServerInfo = new QUdpSocket;
     timeForSendServerInfo->start(1000);
 }
+QString ChatServer::setBroadcastMsg(QString type, quint32 size, QString filename)
+{
+    QString head("CHATSERVER/1.0");
+    head.append('\n');
+    head.append(QObject::tr("Content-type: %1").arg(type)).append('\n');
+    head.append(QObject::tr("Content-size: %1").arg(size)).append('\n');
+    head.append('\r').append('\n');
+    return head;
 
+}
 void ChatServer::incomingConnection(int socketDescriptor)
 {
      ClientSocket *client = new ClientSocket( socketDescriptor);
@@ -25,9 +35,12 @@ void ChatServer::slotSendServerInfo()
 {
     QString serverPort(QObject::tr("%1").arg(port));
     quint16 broadcastPort = 7777;
-    sendServerInfo->writeDatagram(serverPort.toAscii(),QHostAddress::Broadcast,broadcastPort);
+    QString msg(QObject::tr("%1#%2").arg(serverIP).arg(serverPort));
+    QString head = this->setBroadcastMsg("serveraddress",msg.size());
+    sendServerInfo->writeDatagram(msg.toAscii(),QHostAddress::Broadcast,broadcastPort);
+    //sendServerInfo->writeDatagram(head.toAscii(),QHostAddress::Broadcast,broadcastPort);
     timeForSendServerInfo->start(1000);
-    qDebug()<<"SendServerInfo :  "<<serverPort<<'\n';
+    qDebug()<<"SendServerInfo :  "<<serverPort;
 }
 void ChatServer::slotReadyRead(QString msg,int len)
 {

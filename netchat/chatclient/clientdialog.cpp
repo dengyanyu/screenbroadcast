@@ -17,16 +17,18 @@ ClientDialog::ClientDialog(QWidget *parent) :
 //接收服务器发来的广播消息---端口号
 void ClientDialog::slotGetServerPort()
 {
-     QByteArray port;
+     QByteArray recvMsg;
+
      bool ok;
     while(getServer->hasPendingDatagrams())
      {
-            port.resize(getServer->pendingDatagramSize());
-            getServer->readDatagram(port.data(), port.size());
-            serverPort = port.toUShort(&ok,10);
-            qDebug()<<"get server port : "<<serverPort;
+            recvMsg.resize(getServer->pendingDatagramSize());
+            getServer->readDatagram(recvMsg.data(),recvMsg.size());
       }
-
+    QString msg(recvMsg);
+    qDebug()<<msg;
+   // serverPort = port.toUShort(&ok,10);
+    //qDebug()<<"get server port : "<<serverPort;
 }
 ClientDialog::~ClientDialog()
 {

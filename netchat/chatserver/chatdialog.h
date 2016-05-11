@@ -23,6 +23,7 @@ public slots:
     void slotRecvClientInfo(QString address);
     void slotUpdateMsg(QString msg);
     void slotClientOffLine(QString address);
+    QString getLocalAddress();
 
 
 private:

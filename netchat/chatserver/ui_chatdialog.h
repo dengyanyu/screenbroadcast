@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'chatdialog.ui'
 **
-** Created: Thu Mar 31 14:27:42 2016
+** Created: Wed May 11 16:26:54 2016
 **      by: Qt User Interface Compiler version 4.6.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,6 +33,9 @@ public:
     QHBoxLayout *horizontalLayout;
     QListWidget *pMsgList;
     QListWidget *pUerList;
+    QHBoxLayout *horizontalLayout_3;
+    QLineEdit *pSendText;
+    QPushButton *pSendBtn;
     QFormLayout *formLayout;
     QLabel *label;
     QLineEdit *pAddress;
@@ -72,6 +75,22 @@ public:
 
 
         verticalLayout->addLayout(horizontalLayout);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        pSendText = new QLineEdit(ChatDialog);
+        pSendText->setObjectName(QString::fromUtf8("pSendText"));
+
+        horizontalLayout_3->addWidget(pSendText);
+
+        pSendBtn = new QPushButton(ChatDialog);
+        pSendBtn->setObjectName(QString::fromUtf8("pSendBtn"));
+
+        horizontalLayout_3->addWidget(pSendBtn);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
 
         formLayout = new QFormLayout();
         formLayout->setSpacing(6);
@@ -124,6 +143,7 @@ public:
     void retranslateUi(QDialog *ChatDialog)
     {
         ChatDialog->setWindowTitle(QApplication::translate("ChatDialog", "\347\275\221\347\273\234\350\201\212\345\244\251\345\256\244", 0, QApplication::UnicodeUTF8));
+        pSendBtn->setText(QApplication::translate("ChatDialog", "\345\217\221\351\200\201", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("ChatDialog", "IP:", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("ChatDialog", "PORT:", 0, QApplication::UnicodeUTF8));
         pcreate->setText(QApplication::translate("ChatDialog", "\345\210\233\345\273\272", 0, QApplication::UnicodeUTF8));
