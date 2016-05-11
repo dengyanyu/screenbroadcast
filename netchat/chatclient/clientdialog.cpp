@@ -1,5 +1,7 @@
 #include <QByteArray>
 #include <QHostAddress>
+#include <QStringList>
+
 #include "clientdialog.h"
 #include "ui_clientdialog.h"
 
@@ -11,6 +13,7 @@ ClientDialog::ClientDialog(QWidget *parent) :
     getServer = new QUdpSocket();
      QObject::connect(getServer,SIGNAL(readyRead()),this,SLOT(slotGetServerPort()));
     getServer->bind(QHostAddress::Any,7777);
+    haveGetServerInfo = false;
 
 
 }
@@ -24,9 +27,32 @@ void ClientDialog::slotGetServerPort()
      {
             recvMsg.resize(getServer->pendingDatagramSize());
             getServer->readDatagram(recvMsg.data(),recvMsg.size());
+            haveGetServerInfo = true;
       }
+
     QString msg(recvMsg);
-    qDebug()<<msg;
+
+    QStringList detailMsg = msg.split('\n');
+    for(int i = 0;i < detailMsg.size();++i)
+        qDebug()<<detailMsg.at(i);
+    QString temp = detailMsg.at(0);
+    if(temp != "CHATSERVER/1.0")
+    {
+        getServer->readAll();
+        qDebug()<<"非chatsercer 协议包: \t"<<temp;
+        return;
+    }
+    temp = detailMsg.at(1);
+    qDebug()<<"temp = "<<temp.contains("serveraddress");
+    if(temp.contains("serveraddress"))
+    {
+        temp = detailMsg.at(2);
+
+        temp = temp.split(" ").at(1);
+        quint32 size = temp.toUInt(&ok,10);
+        qDebug()<<"content-size = "<<size;
+    }
+
    // serverPort = port.toUShort(&ok,10);
     //qDebug()<<"get server port : "<<serverPort;
 }

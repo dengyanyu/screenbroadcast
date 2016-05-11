@@ -37,8 +37,8 @@ void ChatServer::slotSendServerInfo()
     quint16 broadcastPort = 7777;
     QString msg(QObject::tr("%1#%2").arg(serverIP).arg(serverPort));
     QString head = this->setBroadcastMsg("serveraddress",msg.size());
-    sendServerInfo->writeDatagram(msg.toAscii(),QHostAddress::Broadcast,broadcastPort);
-    //sendServerInfo->writeDatagram(head.toAscii(),QHostAddress::Broadcast,broadcastPort);
+    //sendServerInfo->writeDatagram(msg.toAscii(),QHostAddress::Broadcast,broadcastPort);
+    sendServerInfo->writeDatagram(head.toAscii(),QHostAddress::Broadcast,broadcastPort);
     timeForSendServerInfo->start(1000);
     qDebug()<<"SendServerInfo :  "<<serverPort;
 }

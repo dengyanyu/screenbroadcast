@@ -23,6 +23,7 @@ private:
     Ui::ClientDialog *ui;
     QUdpSocket *getServer;
     quint16 serverPort ;
+    bool haveGetServerInfo;
 
 private slots:
     void on_pExit_clicked();
