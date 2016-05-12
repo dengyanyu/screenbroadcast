@@ -45,18 +45,27 @@ void ClientDialog::slotGetServerPort()
         return;
     }
 
-    temp = detailMsg.at(2);
-    temp = temp.split(" ").at(1);
-    quint32 recv_len = temp.toUInt(&ok,10);
-    temp = detailMsg.at(1);
 
+
+    temp = detailMsg.at(1);
+     quint32 recv_len = 0;
     if(temp.toUInt(&ok,10) == ServerAddress )
     {
+        temp = detailMsg.at(2);
+        temp = temp.split(" ").at(1);
+        recv_len = temp.toUInt(&ok,10);
         if (haveGetServerInfo ==  false)
-        {
                 return handle_serveraddress(recv_len);
-         }
      }
+    if(temp.toUInt(&ok,10) == File )
+    {
+              temp = detailMsg.at(2);
+              QString filename = temp.split(" ").at(1);
+              temp = detailMsg.at(3);
+              temp = temp.split(" ").at(1);
+              recv_len = temp.toUInt(&ok,10);
+              return handle_fileDown(filename,recv_len);
+    }
 }
 void ClientDialog::handle_serveraddress(quint32 size)
 {
@@ -84,6 +93,13 @@ void ClientDialog::slot_disconnected_to_server()
 {
     qDebug()<<"server disconnect!!";
     haveGetServerInfo = false;
+}
+
+//接收下载文件数据包
+void ClientDialog::handle_fileDown(QString filename,quint32 size)
+{
+    qDebug()<<"recv filename: "<<filename<<"\tfilesize: "<<size;
+
 }
 ClientDialog::~ClientDialog()
 {

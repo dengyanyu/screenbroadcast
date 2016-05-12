@@ -16,6 +16,7 @@ public:
     ~ClientDialog();
     enum	MsgType { ServerAddress,File,Image};
     void handle_serveraddress(quint32 size);
+    void handle_fileDown(QString filename,quint32 size);
 public slots:
     void slotGetServerPort();
     void slot_connected_to_server();

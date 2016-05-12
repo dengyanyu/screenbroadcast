@@ -114,7 +114,7 @@
     <value type="QString">PAPERSIZE=a4</value>
     <value type="QString">PATH=/opt/qtsdk-2010.01/qt/bin:/opt/FriendlyARM/toolschain/4.5.1/bin:/opt/qtsdk-2010.01/bin:/opt/qtsdk-2010.01/qt/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin/:/usr/local/sbin</value>
     <value type="QString">PROMPT_COMMAND=__bp_precmd_invoke_cmd; dbus-send --type=method_call --session --dest=net.launchpad.pantheon-terminal /net/launchpad/pantheon_terminal org.pantheon.terminal.ProcessFinished string:$PANTHEON_TERMINAL_ID string:"$(history 1 | cut -c 8-)" >/dev/null 2>&amp;1;  __bp_interactive_mode;</value>
-    <value type="QString">PWD=/home/wangyang/screenbroadcast/netchat/chatclient</value>
+    <value type="QString">PWD=/home/wangyang/screenbroadcast</value>
     <value type="QString">QTDIR=/opt/qtsdk-2010.01/qt</value>
     <value type="QString">QT_IM_MODULE=fcitx</value>
     <value type="QString">SESSION_MANAGER=local/wangyang-virtual-machine:@/tmp/.ICE-unix/1894,unix/wangyang-virtual-machine:/tmp/.ICE-unix/1894</value>
@@ -195,7 +195,7 @@
     <value type="QString">PAPERSIZE=a4</value>
     <value type="QString">PATH=/opt/qtsdk-2010.01/qt/bin:/opt/FriendlyARM/toolschain/4.5.1/bin:/opt/qtsdk-2010.01/bin:/opt/qtsdk-2010.01/qt/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin/:/usr/local/sbin</value>
     <value type="QString">PROMPT_COMMAND=__bp_precmd_invoke_cmd; dbus-send --type=method_call --session --dest=net.launchpad.pantheon-terminal /net/launchpad/pantheon_terminal org.pantheon.terminal.ProcessFinished string:$PANTHEON_TERMINAL_ID string:"$(history 1 | cut -c 8-)" >/dev/null 2>&amp;1;  __bp_interactive_mode;</value>
-    <value type="QString">PWD=/home/wangyang/screenbroadcast/netchat/chatclient</value>
+    <value type="QString">PWD=/home/wangyang/screenbroadcast</value>
     <value type="QString">QTDIR=/opt/qtsdk-2010.01/qt</value>
     <value type="QString">QT_IM_MODULE=fcitx</value>
     <value type="QString">SESSION_MANAGER=local/wangyang-virtual-machine:@/tmp/.ICE-unix/1894,unix/wangyang-virtual-machine:/tmp/.ICE-unix/1894</value>
@@ -273,7 +273,7 @@
     <value type="QString">PAPERSIZE=a4</value>
     <value type="QString">PATH=/opt/qtsdk-2010.01/qt/bin:/opt/FriendlyARM/toolschain/4.5.1/bin:/opt/qtsdk-2010.01/bin:/opt/qtsdk-2010.01/qt/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin/:/usr/local/sbin</value>
     <value type="QString">PROMPT_COMMAND=__bp_precmd_invoke_cmd; dbus-send --type=method_call --session --dest=net.launchpad.pantheon-terminal /net/launchpad/pantheon_terminal org.pantheon.terminal.ProcessFinished string:$PANTHEON_TERMINAL_ID string:"$(history 1 | cut -c 8-)" >/dev/null 2>&amp;1;  __bp_interactive_mode;</value>
-    <value type="QString">PWD=/home/wangyang/screenbroadcast/netchat/chatclient</value>
+    <value type="QString">PWD=/home/wangyang/screenbroadcast</value>
     <value type="QString">QTDIR=/opt/qtsdk-2010.01/qt</value>
     <value type="QString">QT_IM_MODULE=fcitx</value>
     <value type="QString">SESSION_MANAGER=local/wangyang-virtual-machine:@/tmp/.ICE-unix/1894,unix/wangyang-virtual-machine:/tmp/.ICE-unix/1894</value>

@@ -31,6 +31,10 @@ private:
     ChatServer *server;
 
 
+
+private slots:
+    void on_psendDir_clicked();
+    void on_pSendBtn_clicked();
 };
 
 #endif // CHATDIALOG_H

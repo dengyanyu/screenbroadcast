@@ -40,12 +40,23 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLineEdit" name="pSendText"/>
+      <widget class="QPushButton" name="pbroadcast">
+       <property name="text">
+        <string>广播</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="psendDir">
+       <property name="text">
+        <string>发送文件夹</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pSendBtn">
        <property name="text">
-        <string>发送</string>
+        <string>发送文件</string>
        </property>
       </widget>
      </item>

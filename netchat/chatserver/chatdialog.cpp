@@ -1,6 +1,7 @@
 #include <QTcpSocket>
 #include <QList>
 #include <QHostAddress>
+#include <QFileDialog>
 #include <QNetworkInterface>
 #include "chatdialog.h"
 #include "ui_chatdialog.h"
@@ -13,8 +14,10 @@ ChatDialog::ChatDialog(QWidget *parent) :
     ui->pAddress->setText(this->getLocalAddress());
     QObject::connect(ui->pcreate,SIGNAL(clicked()),this,SLOT(slotCreateChat()));
     QObject::connect(ui->pexit,SIGNAL(clicked()),this,SLOT(close()));
-    ui->pSendText->setEnabled(false);
+
     ui->pSendBtn->setEnabled(false);
+    ui->pbroadcast->setEnabled(false);
+    ui->psendDir->setEnabled(false);
 
 }
 
@@ -45,10 +48,12 @@ void ChatDialog::slotCreateChat()
         return;
     bool ok;
     ui->pcreate->setEnabled(false);
-    ui->pAddress->setReadOnly(true);
-    ui->pPort->setReadOnly(true);
-    ui->pSendText->setEnabled(true);
+    ui->pAddress->setEnabled(false);
+    ui->pPort->setEnabled(false);
+
     ui->pSendBtn->setEnabled(true);
+    ui->pbroadcast->setEnabled(true);
+    ui->psendDir->setEnabled(true);
 
 
     server = new ChatServer(QHostAddress(ui->pAddress->text()),ui->pPort->text().toUShort(&ok,10));
@@ -90,3 +95,29 @@ QString ChatDialog::getLocalAddress()
        return hostIP;
 }
 
+//广播发送文件
+void ChatDialog::on_pSendBtn_clicked()
+{
+    QFileDialog chooseFile(this);
+    chooseFile.setFileMode(QFileDialog::ExistingFile);
+    QStringList fileNames;
+     if (chooseFile.exec())
+    {
+         fileNames = chooseFile.selectedFiles();
+         qDebug()<<"select numb: "<<fileNames.size()<<"\tlist: "<<fileNames.at(0);
+     }
+
+}
+
+//广播发送文件夹
+void ChatDialog::on_psendDir_clicked()
+{
+    QFileDialog chooseFile(this);
+    chooseFile.setFileMode(QFileDialog::Directory);
+    QStringList fileNames;
+     if (chooseFile.exec())
+    {
+         fileNames = chooseFile.selectedFiles();
+         qDebug()<<"select numb: "<<fileNames.size()<<"\tlist: "<<fileNames.at(0);
+     }
+}
