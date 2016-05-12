@@ -23,18 +23,15 @@ void ClientDialog::slotGetServerPort()
      QByteArray recvMsg;
 
      bool ok;
-    while(getServer->hasPendingDatagrams())
-     {
-            recvMsg.resize(getServer->pendingDatagramSize());
-            getServer->readDatagram(recvMsg.data(),recvMsg.size());
-            haveGetServerInfo = true;
-      }
+    //while(getServer->hasPendingDatagrams())
+    recvMsg.resize(getServer->pendingDatagramSize());
+    getServer->readDatagram(recvMsg.data(),recvMsg.size());
+
 
     QString msg(recvMsg);
 
     QStringList detailMsg = msg.split('\n');
-    for(int i = 0;i < detailMsg.size();++i)
-        qDebug()<<detailMsg.at(i);
+
     QString temp = detailMsg.at(0);
     if(temp != "CHATSERVER/1.0")
     {
@@ -42,19 +39,29 @@ void ClientDialog::slotGetServerPort()
         qDebug()<<"非chatsercer 协议包: \t"<<temp;
         return;
     }
+
+    temp = detailMsg.at(2);
+
+    temp = temp.split(" ").at(1);
+    quint32 recv_len = temp.toUInt(&ok,10);
     temp = detailMsg.at(1);
-    qDebug()<<"temp = "<<temp.contains("serveraddress");
-    if(temp.contains("serveraddress"))
-    {
-        temp = detailMsg.at(2);
 
-        temp = temp.split(" ").at(1);
-        quint32 size = temp.toUInt(&ok,10);
-        qDebug()<<"content-size = "<<size;
-    }
-
+    if(temp.toUInt(&ok,10) == ServerAddress)
+            return handle_serveraddress(recv_len);
    // serverPort = port.toUShort(&ok,10);
     //qDebug()<<"get server port : "<<serverPort;
+}
+void ClientDialog::handle_serveraddress(quint32 size)
+{
+    QByteArray recvMsg;
+
+    bool ok;
+   recvMsg.resize(getServer->pendingDatagramSize());
+   getServer->readDatagram(recvMsg.data(),recvMsg.size());
+   QStringList temp = QString(recvMsg).split('#');
+   serverIP = temp.at(0);
+   serverPort = temp.at(1).toUInt(&ok,10);
+   qDebug()<<"serverIP: "<<serverIP<<"\tsereverPort: "<<serverPort;
 }
 ClientDialog::~ClientDialog()
 {

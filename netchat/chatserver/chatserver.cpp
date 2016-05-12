@@ -12,7 +12,7 @@ ChatServer::ChatServer(const QHostAddress & address, quint16 port,QObject * pare
     sendServerInfo = new QUdpSocket;
     timeForSendServerInfo->start(1000);
 }
-QString ChatServer::setBroadcastMsg(QString type, quint32 size, QString filename)
+QString ChatServer::setBroadcastMsg(MsgType type, quint32 size, QString filename)
 {
     QString head("CHATSERVER/1.0");
     head.append('\n');
@@ -36,9 +36,13 @@ void ChatServer::slotSendServerInfo()
     QString serverPort(QObject::tr("%1").arg(port));
     quint16 broadcastPort = 7777;
     QString msg(QObject::tr("%1#%2").arg(serverIP).arg(serverPort));
-    QString head = this->setBroadcastMsg("serveraddress",msg.size());
-    //sendServerInfo->writeDatagram(msg.toAscii(),QHostAddress::Broadcast,broadcastPort);
+    QString head = this->setBroadcastMsg(ServerAddress,msg.size());
+
+    //发送协议头
     sendServerInfo->writeDatagram(head.toAscii(),QHostAddress::Broadcast,broadcastPort);
+
+    //发送数据
+    sendServerInfo->writeDatagram(msg.toAscii(),QHostAddress::Broadcast,broadcastPort);
     timeForSendServerInfo->start(1000);
     qDebug()<<"SendServerInfo :  "<<serverPort;
 }

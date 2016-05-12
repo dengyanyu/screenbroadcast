@@ -13,6 +13,8 @@ class ClientDialog : public QDialog {
 public:
     ClientDialog(QWidget *parent = 0);
     ~ClientDialog();
+    enum	MsgType { ServerAddress,File,Image};
+    void handle_serveraddress(quint32 size);
 public slots:
     void slotGetServerPort();
 
@@ -23,6 +25,7 @@ private:
     Ui::ClientDialog *ui;
     QUdpSocket *getServer;
     quint16 serverPort ;
+    QString serverIP;
     bool haveGetServerInfo;
 
 private slots:

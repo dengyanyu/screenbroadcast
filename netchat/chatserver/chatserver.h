@@ -12,9 +12,10 @@ class ChatServer : public QTcpServer
 {
     Q_OBJECT
 public:
+    enum	MsgType { ServerAddress,File,Image};
     ChatServer(const QHostAddress & address, quint16 port,QObject * parent = 0);
    void  sendMsgGroup(QString msg);
-   QString setBroadcastMsg(QString type,quint32 size,QString filename=QString());
+   QString setBroadcastMsg(MsgType type,quint32 size,QString filename=QString());
 public slots:
         void slotReadyRead(QString msg,int len);
         void slotDisconnect(int fd);
