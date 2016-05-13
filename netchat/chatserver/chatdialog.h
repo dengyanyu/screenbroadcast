@@ -24,7 +24,9 @@ public slots:
     void slotUpdateMsg(QString msg);
     void slotClientOffLine(QString address);
     QString getLocalAddress();
-
+signals:
+    void signal_fileDown(QStringList filename);
+    void signal_screenBroadcast(QImage image);
 
 private:
     Ui::ChatDialog *ui;
@@ -33,6 +35,7 @@ private:
 
 
 private slots:
+    void on_pbroadcast_clicked();
     void on_psendDir_clicked();
     void on_pSendBtn_clicked();
 };

@@ -2,6 +2,8 @@
 #include <QList>
 #include <QHostAddress>
 #include <QFileDialog>
+#include <QPixmap>
+#include <QDesktopWidget>
 #include <QNetworkInterface>
 #include "chatdialog.h"
 #include "ui_chatdialog.h"
@@ -60,7 +62,8 @@ void ChatDialog::slotCreateChat()
     QObject::connect(server,SIGNAL(signalClientInfo(QString)),this,SLOT(slotRecvClientInfo(QString)));
     QObject::connect(server,SIGNAL(signalUpdataMsg(QString)),this,SLOT(slotUpdateMsg(QString)));
     QObject::connect(server,SIGNAL(signalClientOffLine(QString)),this,SLOT(slotClientOffLine(QString)));
-
+    QObject::connect(this,SIGNAL(signal_fileDown(QStringList)),server,SLOT(slotSendFileDown(QStringList)));
+    QObject::connect(this,SIGNAL(signal_screenBroadcast(QImage)),server,SLOT(slotSendScreenBroadcast(QImage)));
 }
 
 //显示客户端信息
@@ -102,10 +105,8 @@ void ChatDialog::on_pSendBtn_clicked()
     chooseFile.setFileMode(QFileDialog::ExistingFile);
     QStringList fileNames;
      if (chooseFile.exec())
-    {
          fileNames = chooseFile.selectedFiles();
-         qDebug()<<"select numb: "<<fileNames.size()<<"\tlist: "<<fileNames.at(0);
-     }
+     emit signal_fileDown(fileNames);
 
 }
 
@@ -120,4 +121,10 @@ void ChatDialog::on_psendDir_clicked()
          fileNames = chooseFile.selectedFiles();
          qDebug()<<"select numb: "<<fileNames.size()<<"\tlist: "<<fileNames.at(0);
      }
+}
+
+void ChatDialog::on_pbroadcast_clicked()
+{
+   QImage image = QPixmap::grabWindow(QApplication::desktop()->winId()).toImage();
+   emit signal_screenBroadcast(image);
 }

@@ -1,6 +1,7 @@
 #include <QByteArray>
 #include <QHostAddress>
 #include <QStringList>
+#include <QImage>
 
 #include "clientdialog.h"
 #include "ui_clientdialog.h"
@@ -34,10 +35,11 @@ void ClientDialog::slotGetServerPort()
 
 
     QString msg(recvMsg);
-
+    qDebug()<<"recv msg:  "<<msg;
     QStringList detailMsg = msg.split('\n');
 
     QString temp = detailMsg.at(0);
+
     if(temp != "CHATSERVER/1.0" )
     {
         getServer->readAll();
@@ -45,15 +47,16 @@ void ClientDialog::slotGetServerPort()
         return;
     }
 
-
-
-    temp = detailMsg.at(1);
      quint32 recv_len = 0;
+     temp = detailMsg.at(3);
+     temp = temp.split(" ").at(1);
+     recv_len = temp.toUInt(&ok,10);
+
+     temp = detailMsg.at(1);
+     temp = temp.split(" ").at(1);
+     qDebug()<<"temp = "<<temp;
     if(temp.toUInt(&ok,10) == ServerAddress )
     {
-        temp = detailMsg.at(2);
-        temp = temp.split(" ").at(1);
-        recv_len = temp.toUInt(&ok,10);
         if (haveGetServerInfo ==  false)
                 return handle_serveraddress(recv_len);
      }
@@ -61,10 +64,11 @@ void ClientDialog::slotGetServerPort()
     {
               temp = detailMsg.at(2);
               QString filename = temp.split(" ").at(1);
-              temp = detailMsg.at(3);
-              temp = temp.split(" ").at(1);
-              recv_len = temp.toUInt(&ok,10);
               return handle_fileDown(filename,recv_len);
+    }
+    if(temp.toUInt(&ok,10) == Image )
+    {
+              return handle_screenBroadcast(recv_len);
     }
 }
 void ClientDialog::handle_serveraddress(quint32 size)
@@ -99,11 +103,21 @@ void ClientDialog::slot_disconnected_to_server()
 void ClientDialog::handle_fileDown(QString filename,quint32 size)
 {
     qDebug()<<"recv filename: "<<filename<<"\tfilesize: "<<size;
-
 }
 ClientDialog::~ClientDialog()
 {
     delete ui;
+}
+//接收广播命令
+
+void ClientDialog::handle_screenBroadcast(quint32 size)
+{
+    QByteArray images;
+    images.resize(size);
+    if(size != getServer->readDatagram(images.data(),images.size()))
+        return;
+    QImage pic = QImage::fromData(images);
+    qDebug()<<"handle recv screen broadcast pic size:  "<<pic.byteCount();
 }
 
 void ClientDialog::changeEvent(QEvent *e)

@@ -1,4 +1,7 @@
 #include <QTcpSocket>
+#include <QImage>
+#include <QStringList>
+#include <QFile>
 #include "clientsocket.h"
 #include "chatserver.h"
 
@@ -9,14 +12,16 @@ ChatServer::ChatServer(const QHostAddress & address, quint16 port,QObject * pare
     serverIP = address.toString();
     timeForSendServerInfo = new QTimer(this);
     QObject::connect(this->timeForSendServerInfo,SIGNAL(timeout()),this,SLOT(slotSendServerInfo()));
+     broadcastPort = 7777;
     sendServerInfo = new QUdpSocket;
-    timeForSendServerInfo->start(1000);
+    //timeForSendServerInfo->start(1000);
 }
 QString ChatServer::setBroadcastMsg(MsgType type, quint32 size, QString filename)
 {
-    QString head("CHATSERVER/1.0");
+    QString head(QObject::tr("CHATSERVER/1.0"));
     head.append('\n');
     head.append(QObject::tr("Content-type: %1").arg(type)).append('\n');
+    head.append(QObject::tr("Filename: %1").arg(filename)).append('\n');
     head.append(QObject::tr("Content-size: %1").arg(size)).append('\n');
     head.append('\r').append('\n');
     return head;
@@ -34,7 +39,7 @@ void ChatServer::incomingConnection(int socketDescriptor)
 void ChatServer::slotSendServerInfo()
 {
     QString serverPort(QObject::tr("%1").arg(port));
-    quint16 broadcastPort = 7777;
+
     QString msg(QObject::tr("%1#%2").arg(serverIP).arg(serverPort));
     QString head = this->setBroadcastMsg(ServerAddress,msg.size());
 
@@ -82,3 +87,46 @@ void ChatServer::sendMsgGroup(QString msg)
     for(int i = 0;i < clientList.size();++i)
         clientList.at(i)->write(msg.toLatin1())   ;
 }
+//发送下载文件命令
+void ChatServer::slotSendFileDown(QStringList fileNames)
+{
+    if(fileNames.isEmpty())
+        return;
+      qDebug()<<"select numb: "<<fileNames.size()<<"\tlist: "<<fileNames.at(0);
+      QFile file;
+       QString head;
+      for(int i = 0;i < fileNames.size();++i)
+      {
+            file.setFileName(fileNames.at(i));
+            if(!file.open(QIODevice::ReadOnly))
+            {
+                qDebug()<<"open  file: "<<file.fileName()<<"  failed!!!,errno: "<<file.errorString();
+                continue;
+            }
+            //发送协议头
+            head = this->setBroadcastMsg(File,file.size(),file.fileName());
+            sendServerInfo->writeDatagram(head.toAscii(),QHostAddress::Broadcast,broadcastPort);
+
+            //发送文件内容
+
+            qDebug()<<"head  = "<<head<<endl;
+      }
+}
+
+//发送屏幕广播
+void ChatServer::slotSendScreenBroadcast(QImage image)
+{
+    QString head;
+    QByteArray temp;
+    temp = temp.
+    //发送协议头
+    head = this->setBroadcastMsg(Image,image.byteCount());
+    sendServerInfo->writeDatagram(head.toAscii(),QHostAddress::Broadcast,broadcastPort);
+
+    //发送图片
+
+    sendServerInfo->writeDatagram(image.bits(),image.byteCount(),QHostAddress::Broadcast,broadcastPort);
+    qDebug()<<"slot send broadcast image size = "<<image.byteCount()<<endl;
+}
+
+

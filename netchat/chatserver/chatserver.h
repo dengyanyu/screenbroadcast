@@ -5,7 +5,9 @@
 #include <QTcpSocket>
  #include <QUdpSocket>
 #include <QTimer>
+#include <QStringList>
 #include <QList>
+#include <QImage>
 #include "clientsocket.h"
 
 class ChatServer : public QTcpServer
@@ -20,6 +22,8 @@ public slots:
         void slotReadyRead(QString msg,int len);
         void slotDisconnect(int fd);
          void slotSendServerInfo();
+         void slotSendFileDown(QStringList fileNames);
+         void slotSendScreenBroadcast(QImage image);
 
 protected:
          void	incomingConnection ( int socketDescriptor );
@@ -33,6 +37,7 @@ private:
         QTimer *timeForSendServerInfo;
         QUdpSocket  *sendServerInfo;
         quint16 port;
+        quint16 broadcastPort;
         QString serverIP;
 
 
