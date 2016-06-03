@@ -1,8 +1,5 @@
 #include <QTcpSocket>
-<<<<<<< HEAD
 #include <QDataStream>
-=======
->>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
 #include <QImage>
 #include <QStringList>
 #include <QFile>
@@ -18,11 +15,7 @@ ChatServer::ChatServer(const QHostAddress & address, quint16 port,QObject * pare
     QObject::connect(this->timeForSendServerInfo,SIGNAL(timeout()),this,SLOT(slotSendServerInfo()));
      broadcastPort = 7777;
     sendServerInfo = new QUdpSocket;
-<<<<<<< HEAD
     timeForSendServerInfo->start(1000);
-=======
-    //timeForSendServerInfo->start(1000);
->>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
 }
 QString ChatServer::setBroadcastMsg(MsgType type, quint32 size, QString filename)
 {
@@ -88,7 +81,6 @@ void ChatServer::slotDisconnect(int fd)
           }
      }
 }
-<<<<<<< HEAD
 void ChatServer::sendImageGroup(QByteArray &data)
 {
 
@@ -97,8 +89,6 @@ void ChatServer::sendImageGroup(QByteArray &data)
     for(int i = 0;i < clientList.size();++i)
         clientList.at(i)->write(data.data(),data.size());
 }
-=======
->>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
 void ChatServer::sendMsgGroup(QString msg)
 {
     if(clientList.size() == 0)
@@ -135,7 +125,6 @@ void ChatServer::slotSendFileDown(QStringList fileNames)
 //发送屏幕广播
 void ChatServer::slotSendScreenBroadcast(QImage image)
 {
-<<<<<<< HEAD
 
     QByteArray temp;
     //发送协议头
@@ -144,19 +133,6 @@ void ChatServer::slotSendScreenBroadcast(QImage image)
     temp.append((const char *)image.bits(),image.byteCount());
     this->sendImageGroup(temp);
     qDebug()<<"slot send broadcast image size = "<<temp.size()<<endl;
-=======
-    QString head;
-    QByteArray temp;
-    temp = temp.
-    //发送协议头
-    head = this->setBroadcastMsg(Image,image.byteCount());
-    sendServerInfo->writeDatagram(head.toAscii(),QHostAddress::Broadcast,broadcastPort);
-
-    //发送图片
-
-    sendServerInfo->writeDatagram(image.bits(),image.byteCount(),QHostAddress::Broadcast,broadcastPort);
-    qDebug()<<"slot send broadcast image size = "<<image.byteCount()<<endl;
->>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
 }
 
 

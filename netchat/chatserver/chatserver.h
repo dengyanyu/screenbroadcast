@@ -17,10 +17,7 @@ public:
     enum	MsgType { ServerAddress,File,Image};
     ChatServer(const QHostAddress & address, quint16 port,QObject * parent = 0);
    void  sendMsgGroup(QString msg);
-<<<<<<< HEAD
    void sendImageGroup(QByteArray & data);
-=======
->>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
    QString setBroadcastMsg(MsgType type,quint32 size,QString filename=QString());
 public slots:
         void slotReadyRead(QString msg,int len);

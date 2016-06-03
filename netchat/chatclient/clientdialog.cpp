@@ -26,24 +26,16 @@ ClientDialog::ClientDialog(QWidget *parent) :
 //接收服务器发来的广播消息---端口号
 void ClientDialog::slotGetServerPort()
 {
-<<<<<<< HEAD
     QByteArray recvMsg;
-=======
-     QByteArray recvMsg;
->>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
-
      bool ok;
     //while(getServer->hasPendingDatagrams())
     recvMsg.resize(getServer->pendingDatagramSize());
     getServer->readDatagram(recvMsg.data(),recvMsg.size());
-<<<<<<< HEAD
     qDebug()<<"recv size : "<<recvMsg.size();
 
 
     QString msg(recvMsg);
-    //qDebug()<<"recv msg:  "<<msg;
-    QStringList detailMsg = msg.split('\r\n');
-
+    QStringList detailMsg = msg.split("\r\n");
     QString temp = detailMsg.at(0);
     qDebug()<<temp;
     QStringList headtext = temp.split('\n');
@@ -51,25 +43,12 @@ void ClientDialog::slotGetServerPort()
 
     if(temp != "CHATSERVER/1.0" )
     {
-=======
-
-
-    QString msg(recvMsg);
-    qDebug()<<"recv msg:  "<<msg;
-    QStringList detailMsg = msg.split('\n');
-
-    QString temp = detailMsg.at(0);
-
-    if(temp != "CHATSERVER/1.0" )
-    {
-        getServer->readAll();
->>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
         qDebug()<<"dicard package!!!";
         return;
     }
 
      quint32 recv_len = 0;
-     temp = detailMsg.at(3);
+     temp = headtext.at(3);
      temp = temp.split(" ").at(1);
      recv_len = temp.toUInt(&ok,10);
 
@@ -94,10 +73,8 @@ void ClientDialog::slotGetServerPort()
 }
 void ClientDialog::handle_serveraddress(quint32 size)
 {
-
     QByteArray recvMsg;
     bool ok;
-
    recvMsg.resize(size);
    //数据不正确抛弃数据包
    if(size != getServer->readDatagram(recvMsg.data(),recvMsg.size()))
