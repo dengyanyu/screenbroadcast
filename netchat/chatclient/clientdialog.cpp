@@ -26,12 +26,17 @@ ClientDialog::ClientDialog(QWidget *parent) :
 //接收服务器发来的广播消息---端口号
 void ClientDialog::slotGetServerPort()
 {
+<<<<<<< HEAD
     QByteArray recvMsg;
+=======
+     QByteArray recvMsg;
+>>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
 
      bool ok;
     //while(getServer->hasPendingDatagrams())
     recvMsg.resize(getServer->pendingDatagramSize());
     getServer->readDatagram(recvMsg.data(),recvMsg.size());
+<<<<<<< HEAD
     qDebug()<<"recv size : "<<recvMsg.size();
 
 
@@ -46,6 +51,19 @@ void ClientDialog::slotGetServerPort()
 
     if(temp != "CHATSERVER/1.0" )
     {
+=======
+
+
+    QString msg(recvMsg);
+    qDebug()<<"recv msg:  "<<msg;
+    QStringList detailMsg = msg.split('\n');
+
+    QString temp = detailMsg.at(0);
+
+    if(temp != "CHATSERVER/1.0" )
+    {
+        getServer->readAll();
+>>>>>>> 9f28b1457708a01ace051446a6878624eb12c0e8
         qDebug()<<"dicard package!!!";
         return;
     }
